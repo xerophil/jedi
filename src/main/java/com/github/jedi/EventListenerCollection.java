@@ -22,8 +22,8 @@ package com.github.jedi;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class contains a List of {@link com.googlecode.jedi.EventListenerData}
@@ -39,7 +39,7 @@ public class EventListenerCollection {
     /**
      * static {@link java.util.logging.Logger} instance
      */
-    private static Logger log = Logger.getLogger(EventListenerCollection.class.
+    private static final Logger log = LoggerFactory.getLogger(EventListenerCollection.class.
             getName());
     /**
      * The List that holds all {@link com.googlecode.jedi.EventListenerData}
@@ -105,7 +105,7 @@ public class EventListenerCollection {
             EventListenerData eventListenerData = it.next();
             if (eventListenerData.getListener().equals(listener)) {
                 it.remove();
-                log.log(Level.FINER, "EventListener removed for " + name != null ? name : "global");
+                log.debug("EventListener removed for " + name != null ? name : "global");
                 return eventListenerData;
             }
         }
@@ -153,13 +153,13 @@ public class EventListenerCollection {
      */
     public synchronized void dispatchEvent(Event event) {
 
-        log.log(Level.FINER, "dispatching " + event.getName());
+        log.debug("dispatching " + event.getName());
         for (Iterator<EventListenerData> it = listeners.iterator(); it.hasNext();) {
             EventListenerData eventListenerData = it.next();
             eventListenerData.getListener().handleEvent(event);
             if (eventListenerData.isOneShot()) {
                 it.remove();
-                log.log(Level.FINER, "listener removed after first call", eventListenerData);
+                log.debug("listener removed after first call", eventListenerData);
             }
         }
     }

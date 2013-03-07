@@ -30,7 +30,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class EventDispatcher implements Runnable {
 
     static EventDispatcher defaultInstance = new EventDispatcher();
-    static HashMap<String, EventDispatcher> instances = new HashMap<String, EventDispatcher>();
+    static HashMap<String, EventDispatcher> instances = new HashMap<>();
     static EventListenerCollection superGlobalListeners = new EventListenerCollection(null);
     /**
      * <code>name</code> of this instance
